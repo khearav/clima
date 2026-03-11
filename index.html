@@ -3,47 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estación Climática</title>
+<title>Home Climate</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap');
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  --bg: #1c1c1e;
-  --card: #2c2c2e;
-  --card2: #3a3a3c;
-  --text: #f5f5f7;
-  --muted: #8e8e93;
-  --accent: #ffd60a;
-  --blue: #64d2ff;
-  --border: rgba(255,255,255,0.08);
+  --bg:        #ddeeff;
+  --surface:   #ffffff;
+  --surface2:  #f0f7ff;
+  --accent:    #2196f3;
+  --accent-lt: #64b5f6;
+  --text:      #0d1f30;
+  --muted:     #7a9ab5;
+  --border:    rgba(33,150,243,0.1);
+  --hot:       #f4733a;
+  --cold:      #4a90d9;
+  --sh:        0 4px 24px rgba(33,150,243,0.10);
+  --sh-hero:   0 8px 40px rgba(10,60,120,0.18);
 }
 
 body {
   background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(180,220,255,0.7) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgba(200,230,255,0.5) 0%, transparent 50%);
   color: var(--text);
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Figtree', sans-serif;
   min-height: 100vh;
-  padding: 0 0 60px;
+  padding-bottom: 100px;
 }
 
-/* ── HERO ── */
+/* ─── HERO ─── */
 .hero {
-  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  padding: 40px 24px 36px;
+  background: linear-gradient(145deg, #1e6fd6 0%, #42a5f5 60%, #81d4fa 100%);
+  padding: 48px 24px 44px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--sh-hero);
 }
 
+/* decorative circles */
 .hero::before {
   content: '';
   position: absolute;
-  top: -60px; right: -60px;
-  width: 250px; height: 250px;
+  top: -90px; right: -60px;
+  width: 300px; height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,214,10,0.12) 0%, transparent 70%);
-  pointer-events: none;
+  background: rgba(255,255,255,0.10);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -50px; left: 30px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
 }
 
 .hero-top {
@@ -51,185 +67,344 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 32px;
+  position: relative; z-index:1;
 }
 
+.brand { display:flex; flex-direction:column; gap:3px; }
+
 .station-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 4px;
+  color: rgba(255,255,255,0.65);
 }
 
 .station-name {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.hero-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
 
 .live-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #4ade80;
+  gap: 7px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 30px;
+  padding: 5px 14px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #fff;
 }
 
 .dot {
-  width: 6px; height: 6px;
+  width: 7px; height: 7px;
   border-radius: 50%;
-  background: #4ade80;
-  animation: blink 2s ease infinite;
+  background: #b9ffca;
+  box-shadow: 0 0 6px rgba(185,255,202,0.8);
+  animation: blink 2.2s ease infinite;
 }
 
 @keyframes blink {
-  0%,100% { opacity:1; }
-  50% { opacity:0.3; }
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.4; transform:scale(0.7); }
 }
 
-/* ── CURRENT BIG ── */
-.current-big {
+/* unit toggle */
+.unit-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 30px;
+  padding: 3px;
+}
+
+.unit-btn {
+  background: transparent;
+  border: none;
+  border-radius: 24px;
+  padding: 4px 13px;
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+
+.unit-btn.active {
+  background: #fff;
+  color: #1e6fd6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* ─── CURRENT BIG ─── */
+.current-wrap {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-bottom: 32px;
+  position: relative; z-index:1;
 }
 
-.weather-icon-big {
-  font-size: 80px;
-  line-height: 1;
-  filter: drop-shadow(0 0 20px rgba(255,214,10,0.3));
-  animation: float 4s ease-in-out infinite;
+.icon-ring {
+  width: 104px; height: 104px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: float 5s ease-in-out infinite;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
+
+.icon-ring .ico { font-size: 54px; line-height:1; }
 
 @keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-7px) rotate(1deg); }
+  66% { transform: translateY(-3px) rotate(-1deg); }
 }
 
-.temp-display { display: flex; flex-direction: column; }
+.temp-block { display:flex; flex-direction:column; }
 
 .temp-big {
-  font-size: 88px;
+  font-size: 84px;
   font-weight: 300;
-  line-height: 1;
-  color: var(--text);
-  letter-spacing: -4px;
+  line-height: 0.95;
+  color: #fff;
+  letter-spacing: -5px;
 }
 
 .temp-big sup {
-  font-size: 36px;
-  font-weight: 400;
+  font-size: 30px;
+  font-weight: 600;
   letter-spacing: 0;
   vertical-align: super;
-  color: var(--accent);
+  color: rgba(255,255,255,0.75);
 }
 
 .condition-text {
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--muted);
-  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  margin-top: 8px;
+  letter-spacing: 0.2px;
 }
 
+/* ─── HERO STATS ─── */
 .hero-stats {
-  display: flex;
-  gap: 24px;
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative; z-index:1;
 }
 
-.hero-stat { display: flex; flex-direction: column; gap: 2px; }
+.hero-stat {
+  padding: 14px 8px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.hero-stat:last-child { border-right: none; }
 
 .hero-stat-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(255,255,255,0.58);
+  margin-bottom: 5px;
 }
 
 .hero-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 19px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
 }
 
-/* ── SECTION ── */
-.section { padding: 0 16px; margin-top: 20px; }
+/* ─── BODY ─── */
+.body-wrap { padding: 0 14px; }
+
+/* refresh row */
+.refresh-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 16px 0 4px;
+}
+
+.last-update {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 7px 18px;
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--sh);
+  letter-spacing: 0.5px;
+}
+
+.refresh-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.refresh-btn:active { transform: scale(0.95); }
+.refresh-btn.spinning .ri { animation: spin 0.7s linear infinite; display:inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* section */
+.section { margin-top: 22px; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
 
 .section-title {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 12px;
-  padding: 0 4px;
 }
 
-/* ── 7 DÍAS ── */
+.section-note {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* ─── CHART CARD ─── */
+.chart-card {
+  background: var(--surface);
+  border-radius: 22px;
+  padding: 20px 18px 16px;
+  box-shadow: var(--sh);
+  border: 1px solid var(--border);
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.chart-tab {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 6px 16px;
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.chart-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(33,150,243,0.3);
+}
+
+canvas { width:100%!important; height:175px!important; }
+
+/* ─── 7 DAYS ─── */
 .week-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7,1fr);
   gap: 8px;
 }
 
-@media (max-width: 600px) { .week-grid { grid-template-columns: repeat(4,1fr); } }
-@media (max-width: 380px) { .week-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width:600px) { .week-grid { grid-template-columns: repeat(4,1fr); } }
+@media (max-width:380px) { .week-grid { grid-template-columns: repeat(3,1fr); } }
 
 .day-tile {
-  background: var(--card);
+  background: var(--surface);
   border-radius: 18px;
-  padding: 14px 8px 12px;
+  padding: 14px 6px 12px;
   text-align: center;
-  border: 1px solid var(--border);
-  transition: background 0.2s, transform 0.15s;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--sh);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.day-tile:hover { background: var(--card2); transform: translateY(-2px); }
+.day-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(33,150,243,0.14); }
 
 .day-tile.today {
-  background: rgba(255,214,10,0.1);
-  border-color: rgba(255,214,10,0.35);
+  background: linear-gradient(160deg, #e3f2fd, #bbdefb);
+  border-color: rgba(33,150,243,0.35);
 }
 
 .day-label {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 2px;
+  font-size: 8.5px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 
 .day-tile.today .day-label { color: var(--accent); }
+.day-ico { font-size: 24px; line-height:1; margin-bottom:9px; }
+.day-max { font-size: 15px; font-weight: 900; color: var(--hot); }
+.day-min { font-size: 11px; font-weight: 700; color: var(--cold); margin-top:2px; }
+.day-hum { font-size: 9px; color: var(--muted); margin-top:6px; font-weight: 700; }
 
-.day-ico { font-size: 26px; line-height: 1; margin-bottom: 10px; }
-.day-max { font-size: 17px; font-weight: 700; color: var(--text); }
-.day-min { font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 1px; }
-.day-hum { font-size: 9px; color: var(--blue); margin-top: 6px; font-weight: 600; }
-
-/* ── READINGS TABLE ── */
+/* ─── READINGS ─── */
 .readings-list {
-  background: var(--card);
-  border-radius: 18px;
+  background: var(--surface);
+  border-radius: 22px;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--sh);
 }
 
 .reading-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   align-items: center;
-  padding: 14px 20px;
+  padding: 13px 20px;
   border-bottom: 1px solid var(--border);
   gap: 16px;
   transition: background 0.15s;
@@ -237,16 +412,16 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity:0; transform:translateX(-6px); }
+  from { opacity:0; transform:translateX(-5px); }
   to   { opacity:1; transform:translateX(0); }
 }
 
-.reading-row:last-child { border-bottom: none; }
-.reading-row:hover { background: var(--card2); }
+.reading-row:last-child { border-bottom:none; }
+.reading-row:hover { background: var(--surface2); }
 
 .reading-row.header {
-  background: rgba(255,255,255,0.04);
-  padding: 10px 20px;
+  background: var(--surface2);
+  padding: 9px 20px;
   animation: none;
 }
 
@@ -258,60 +433,54 @@ body {
   color: var(--muted);
 }
 
-.r-time { font-size: 13px; font-weight: 600; color: var(--muted); }
-.r-temp { font-size: 18px; font-weight: 700; color: var(--text); text-align: right; }
-.r-hum  { font-size: 14px; font-weight: 600; color: var(--blue); text-align: right; min-width: 56px; }
+.r-time { font-size: 12px; font-weight: 600; color: var(--muted); }
+.r-temp { font-size: 17px; font-weight: 900; color: var(--text); text-align:right; letter-spacing:-0.5px; }
+.r-hum  { font-size: 13px; font-weight: 700; color: var(--accent); text-align:right; min-width:52px; }
 
-/* ── DEMO BANNER ── */
+/* ─── DEMO BANNER ─── */
 .demo-banner {
-  margin: 16px 16px 0;
-  background: rgba(251,146,60,0.1);
-  border: 1px solid rgba(251,146,60,0.3);
-  border-radius: 12px;
-  padding: 10px 18px;
+  margin: 14px 0 0;
+  background: rgba(255,149,0,0.07);
+  border: 1.5px solid rgba(255,149,0,0.22);
+  border-radius: 14px;
+  padding: 9px 16px;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: #fb923c;
+  letter-spacing: 1.5px;
+  color: #b36000;
   text-align: center;
   text-transform: uppercase;
 }
 
-/* ── STATUS BAR ── */
+/* ─── STATUS ─── */
 #status-bar {
   position: fixed;
-  bottom: 16px; right: 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-size: 9px;
+  bottom: 18px; right: 18px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 8px 18px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   color: var(--muted);
   z-index: 99;
   transition: opacity 0.5s;
+  box-shadow: var(--sh);
 }
 
-/* ── FOOTER ── */
+/* ─── FOOTER ─── */
 .footer {
-  margin: 32px 16px 0;
-  padding-top: 16px;
+  margin: 30px 0 0;
+  padding-top: 14px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   font-size: 9px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 1px;
   color: var(--muted);
   text-transform: uppercase;
-}
-
-.update-stamp {
-  font-size: 9px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  font-weight: 600;
 }
 </style>
 </head>
@@ -320,100 +489,155 @@ body {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-top">
-    <div>
-      <div class="station-label">⚡ Estación ESP32</div>
-      <div class="station-name">Monitor del Clima</div>
+    <div class="brand">
+      <div class="station-label">ESP32 · Indoor Station</div>
+      <div class="station-name">Home Climate</div>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-      <div class="live-badge"><div class="dot"></div>EN VIVO</div>
-      <div class="update-stamp" id="lastUpdate">--:--</div>
+    <div class="hero-controls">
+      <div class="live-badge"><div class="dot"></div>LIVE</div>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btnC" onclick="setUnit('C')">°C</button>
+        <button class="unit-btn" id="btnF" onclick="setUnit('F')">°F</button>
+      </div>
     </div>
   </div>
 
-  <div class="current-big">
-    <div class="weather-icon-big" id="heroIcon">⏳</div>
-    <div class="temp-display">
+  <div class="current-wrap">
+    <div class="icon-ring"><span class="ico" id="heroIcon">⏳</span></div>
+    <div class="temp-block">
       <div class="temp-big" id="curTemp">--<sup>°C</sup></div>
-      <div class="condition-text" id="condText">Cargando datos...</div>
+      <div class="condition-text" id="condText">Loading data...</div>
     </div>
   </div>
 
   <div class="hero-stats">
     <div class="hero-stat">
-      <div class="hero-stat-label">💧 Humedad</div>
+      <div class="hero-stat-label">Humidity</div>
       <div class="hero-stat-value" id="curHum">--%</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">⬆ Máx hoy</div>
+      <div class="hero-stat-label">High today</div>
       <div class="hero-stat-value" id="todayMax">--°</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">⬇ Mín hoy</div>
+      <div class="hero-stat-label">Low today</div>
       <div class="hero-stat-value" id="todayMin">--°</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-label">📊 Prom semana</div>
+      <div class="hero-stat-label">Weekly avg</div>
       <div class="hero-stat-value" id="weekAvg">--°</div>
     </div>
   </div>
 </div>
 
-<!-- DEMO BANNER -->
-<div id="demoBanner" class="demo-banner" style="display:none">
-  ⚠️ Modo demo — datos simulados. Conecta el ESP32 para ver datos reales.
-</div>
+<!-- BODY -->
+<div class="body-wrap">
 
-<!-- 7 DÍAS -->
-<div class="section" style="margin-top:24px">
-  <div class="section-title">Pronóstico 7 días</div>
-  <div class="week-grid" id="weekGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:11px;letter-spacing:2px">CARGANDO...</div>
+  <!-- DEMO BANNER -->
+  <div id="demoBanner" class="demo-banner" style="display:none">
+    ⚠️ Demo mode — simulated data. Connect ESP32 for live readings.
   </div>
-</div>
 
-<!-- ÚLTIMAS LECTURAS -->
-<div class="section" style="margin-top:24px">
-  <div class="section-title">Últimas lecturas</div>
-  <div class="readings-list" id="readingsList">
-    <div class="reading-row header">
-      <span>Hora / Fecha</span><span>Temp</span><span>Humedad</span>
+  <!-- REFRESH ROW -->
+  <div class="refresh-row">
+    <span class="last-update" id="lastUpdate"></span>
+    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
+      <span class="ri">↻</span> Refresh
+    </button>
+  </div>
+
+  <!-- 7 DAYS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Last 7 days</div>
+      <span class="section-note">high / low</span>
     </div>
-    <div style="text-align:center;padding:30px;color:var(--muted);font-size:11px;letter-spacing:2px">CARGANDO...</div>
+    <div class="week-grid" id="weekGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:28px;color:var(--muted);font-size:11px;letter-spacing:2px;font-weight:700">LOADING...</div>
+    </div>
   </div>
-</div>
 
-<div class="footer">
-  <span>ESP32 + DHT11 · Ch. 3283052</span>
-  <span>Lectura cada hora</span>
-</div>
+  <!-- CHART -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Last 24 hours</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-tabs">
+        <button class="chart-tab active" onclick="switchChart('temp',this)">Temperature</button>
+        <button class="chart-tab" onclick="switchChart('hum',this)">Humidity</button>
+      </div>
+      <canvas id="mainChart"></canvas>
+    </div>
+  </div>
 
-<div id="status-bar">⏳ Conectando...</div>
+  <!-- READINGS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Recent readings</div>
+    </div>
+    <div class="readings-list" id="readingsList">
+      <div class="reading-row header">
+        <span>Time / Date</span><span>Temp</span><span>Humidity</span>
+      </div>
+    </div>
+  </div>
 
+  <div class="footer">
+    <span>ESP32 + DHT11 · Ch. 3283052</span>
+    <span>Updates every hour</span>
+  </div>
+
+</div><!-- /body-wrap -->
+
+<div id="status-bar">⏳ Connecting...</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 const CHANNEL_ID = 3283052;
 const READ_KEY   = 'ER23E15IEI7Q25J9';
 const RESULTS    = 200;
-const DAY_NAMES  = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
-let allFeeds = [];
+const DAY_NAMES  = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
-function weatherIcon(temp, hum) {
-  if (hum > 85) return '🌧';
-  if (hum > 72) return '☁️';
-  if (temp < 14) return '🌬';
-  if (temp < 20) return '⛅';
-  if (temp < 28) return '🌤';
-  return '☀️';
+let allFeeds  = [];
+let chartInst = null;
+let chartMode = 'temp';
+let unit      = 'C';
+
+// ── UNIT ──
+function toDisplay(c) { return unit === 'C' ? c : parseFloat((c * 9/5 + 32).toFixed(1)); }
+function unitLabel()  { return unit === 'C' ? '°C' : '°F'; }
+
+function setUnit(u) {
+  unit = u;
+  document.getElementById('btnC').classList.toggle('active', u === 'C');
+  document.getElementById('btnF').classList.toggle('active', u === 'F');
+  if (allFeeds.length) { renderCurrent(); renderWeek(); renderReadings(); renderChart(); }
 }
 
-function condition(temp, hum) {
-  if (hum > 85) return 'Muy húmedo';
-  if (hum > 72) return 'Nublado y húmedo';
-  if (temp < 14) return 'Frío';
-  if (temp < 20) return 'Fresco, agradable';
-  if (temp < 28) return 'Cálido y soleado';
-  return 'Muy caluroso';
+// ── ICONS ──
+// 🧊 too cold   ❄️ cold   🌤 comfy   ☀️ warm   🌵 very dry   💧 a bit humid   💦 very humid
+function indoorIcon(temp, hum) {
+  if (hum > 78) return '💦';       // very humid
+  if (hum < 28) return '🌵';       // very dry
+  if (temp < 15) return '🧊';      // freezing
+  if (temp < 20) return '❄️';      // cold
+  if (temp < 27) return '🌤';      // comfortable
+  if (temp < 32) return '☀️';      // warm
+  return '🔥';                     // hot
 }
 
+function indoorCondition(temp, hum) {
+  if (hum > 78) return 'Very humid — open a window';
+  if (hum < 28) return 'Very dry air';
+  if (temp < 15) return 'Freezing inside';
+  if (temp < 20) return 'Chilly — consider heating';
+  if (temp < 27) return 'Comfortable temperature';
+  if (temp < 32) return 'Warm and a bit humid';
+  return 'Hot — consider AC';
+}
+
+// ── FORMAT ──
 function fmt(ts) {
   const d = new Date(ts);
   return d.getHours().toString().padStart(2,'0') + ':00  '
@@ -421,38 +645,41 @@ function fmt(ts) {
        + (d.getMonth()+1).toString().padStart(2,'0');
 }
 
+// ── DEMO DATA ──
 function generateDemo() {
   const feeds = [];
   const now = new Date();
   for (let h = 167; h >= 0; h--) {
-    const ts   = new Date(now - h * 3600000);
-    const hour = ts.getHours();
-    const curve = Math.sin((hour - 6) * Math.PI / 12) * 6;
-    const dayVar = (Math.floor(h / 24) % 7) * 0.6;
-    const temp = parseFloat((22 + curve + dayVar + (Math.random()-0.5)*1.2).toFixed(1));
-    const hum  = parseFloat((Math.min(95, Math.max(30, 60 - curve*1.5 + (Math.random()-0.5)*5))).toFixed(1));
+    const ts    = new Date(now - h * 3600000);
+    const hour  = ts.getHours();
+    const curve = Math.sin((hour - 6) * Math.PI / 12) * 4;
+    const dayV  = (Math.floor(h / 24) % 7) * 0.5;
+    const temp  = parseFloat((23 + curve + dayV + (Math.random()-0.5)*1).toFixed(1));
+    const hum   = parseFloat((Math.min(88, Math.max(32, 58 - curve + (Math.random()-0.5)*4))).toFixed(1));
     feeds.push({ t: temp, h: hum, ts: ts.toISOString() });
   }
   return feeds;
 }
 
+// ── RENDER CURRENT ──
 function renderCurrent() {
   const last = allFeeds[allFeeds.length - 1];
-  document.getElementById('curTemp').innerHTML = last.t.toFixed(1) + '<sup>°C</sup>';
+  const disp = toDisplay(last.t);
+  document.getElementById('curTemp').innerHTML = disp.toFixed(1) + `<sup>${unitLabel()}</sup>`;
   document.getElementById('curHum').textContent = last.h.toFixed(1) + '%';
-  document.getElementById('heroIcon').textContent = weatherIcon(last.t, last.h);
-  document.getElementById('condText').textContent = condition(last.t, last.h);
+  document.getElementById('heroIcon').textContent = indoorIcon(last.t, last.h);
+  document.getElementById('condText').textContent = indoorCondition(last.t, last.h);
 
-  const todayStr = new Date(last.ts).toDateString();
+  const todayStr   = new Date(last.ts).toDateString();
   const todayFeeds = allFeeds.filter(f => new Date(f.ts).toDateString() === todayStr);
-  const temps = todayFeeds.map(f => f.t);
+  const temps      = todayFeeds.map(f => toDisplay(f.t));
   document.getElementById('todayMax').textContent = Math.max(...temps).toFixed(1) + '°';
   document.getElementById('todayMin').textContent = Math.min(...temps).toFixed(1) + '°';
-
-  const avg = allFeeds.reduce((s,f) => s+f.t, 0) / allFeeds.length;
+  const avg = allFeeds.reduce((s,f) => s + toDisplay(f.t), 0) / allFeeds.length;
   document.getElementById('weekAvg').textContent = avg.toFixed(1) + '°';
 }
 
+// ── RENDER WEEK ──
 function renderWeek() {
   const byDay = {};
   allFeeds.forEach(f => {
@@ -462,14 +689,14 @@ function renderWeek() {
     byDay[key].hums.push(f.h);
   });
 
-  const days = Object.values(byDay).slice(-7);
+  const days     = Object.values(byDay).slice(-7);
   const todayStr = new Date().toDateString();
-  const grid = document.getElementById('weekGrid');
+  const grid     = document.getElementById('weekGrid');
   grid.innerHTML = '';
 
-  days.forEach((d, i) => {
-    const max  = Math.max(...d.temps);
-    const min  = Math.min(...d.temps);
+  days.forEach(d => {
+    const max  = toDisplay(Math.max(...d.temps));
+    const min  = toDisplay(Math.min(...d.temps));
     const avgH = d.hums.reduce((a,b)=>a+b,0) / d.hums.length;
     const avgT = d.temps.reduce((a,b)=>a+b,0) / d.temps.length;
     const isToday = d.date.toDateString() === todayStr;
@@ -477,51 +704,131 @@ function renderWeek() {
     const tile = document.createElement('div');
     tile.className = 'day-tile' + (isToday ? ' today' : '');
     tile.innerHTML = `
-      <div class="day-label">${isToday ? 'HOY' : DAY_NAMES[d.date.getDay()]}</div>
-      <div class="day-ico">${weatherIcon(avgT, avgH)}</div>
+      <div class="day-label">${isToday ? 'TODAY' : DAY_NAMES[d.date.getDay()]}</div>
+      <div class="day-ico">${indoorIcon(avgT, avgH)}</div>
       <div class="day-max">${max.toFixed(1)}°</div>
       <div class="day-min">${min.toFixed(1)}°</div>
-      <div class="day-hum">💧${avgH.toFixed(0)}%</div>
+      <div class="day-hum">${avgH.toFixed(0)}% rh</div>
     `;
     grid.appendChild(tile);
   });
 }
 
+// ── RENDER READINGS ──
 function renderReadings() {
   const list = document.getElementById('readingsList');
   list.innerHTML = `
     <div class="reading-row header">
-      <span>Hora / Fecha</span><span>Temp</span><span>Humedad</span>
+      <span>Time / Date</span><span>Temp</span><span>Humidity</span>
     </div>
   `;
   [...allFeeds].reverse().slice(0, 24).forEach((f, i) => {
     const row = document.createElement('div');
     row.className = 'reading-row';
-    row.style.animationDelay = (i * 0.03) + 's';
+    row.style.animationDelay = (i * 0.025) + 's';
     row.innerHTML = `
-      <div class="r-time">${weatherIcon(f.t, f.h)}  ${fmt(f.ts)}</div>
-      <div class="r-temp">${f.t.toFixed(1)}°C</div>
+      <div class="r-time">${indoorIcon(f.t, f.h)}  ${fmt(f.ts)}</div>
+      <div class="r-temp">${toDisplay(f.t).toFixed(1)}${unitLabel()}</div>
       <div class="r-hum">${f.h.toFixed(1)}%</div>
     `;
     list.appendChild(row);
   });
 }
 
+// ── CHART ──
+function switchChart(mode, btn) {
+  chartMode = mode;
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart();
+}
+
+function renderChart() {
+  const slice  = [...allFeeds].slice(-24);
+  const labels = slice.map(f => new Date(f.ts).getHours().toString().padStart(2,'0') + ':00');
+  const data   = slice.map(f => chartMode === 'temp' ? toDisplay(f.t) : f.h);
+  const color  = chartMode === 'temp' ? '#2196f3' : '#42a5f5';
+  const label  = chartMode === 'temp' ? `Temperature (${unitLabel()})` : 'Humidity (%)';
+
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (chartInst) chartInst.destroy();
+
+  chartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: color + '14',
+        borderWidth: 2.5,
+        pointRadius: 3,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: color,
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
+        fill: true,
+        tension: 0.45
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#fff',
+          titleColor: '#0d1f30',
+          bodyColor: '#2196f3',
+          borderColor: 'rgba(33,150,243,0.2)',
+          borderWidth: 1,
+          padding: 10,
+          cornerRadius: 10,
+          titleFont: { family: 'Figtree', weight: '700', size: 11 },
+          bodyFont:  { family: 'Figtree', weight: '900', size: 15 },
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#7a9ab5', font: { size: 9, family: 'Figtree', weight: '600' }, maxTicksLimit: 8 },
+          grid:  { color: 'rgba(33,150,243,0.06)' },
+          border: { display: false }
+        },
+        y: {
+          ticks: { color: '#7a9ab5', font: { size: 9, family: 'Figtree', weight: '600' } },
+          grid:  { color: 'rgba(33,150,243,0.06)' },
+          border: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// ── STATUS ──
 function statusBar(msg, ok) {
   const el = document.getElementById('status-bar');
   el.textContent = msg;
-  el.style.color = ok ? '#4ade80' : '#fb923c';
+  el.style.color = ok ? '#2e7d32' : '#b34700';
   el.style.opacity = '1';
   clearTimeout(el._t);
   el._t = setTimeout(() => el.style.opacity = '0', 4000);
 }
 
-async function fetchData() {
+// ── FETCH ──
+async function fetchData(manual = false) {
+  if (manual) {
+    const btn = document.getElementById('refreshBtn');
+    btn.classList.add('spinning');
+    setTimeout(() => btn.classList.remove('spinning'), 900);
+  }
+
   try {
-    const url = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?api_key=${READ_KEY}&results=${RESULTS}`;
+    const url  = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?api_key=${READ_KEY}&results=${RESULTS}`;
     const res  = await fetch(url);
     const json = await res.json();
-    let demo = false;
+    let demo   = false;
 
     if (!json.feeds || !json.feeds.length) {
       demo = true;
@@ -536,27 +843,27 @@ async function fetchData() {
     if (demo) {
       allFeeds = generateDemo();
       document.getElementById('demoBanner').style.display = 'block';
-      document.getElementById('lastUpdate').textContent = 'DEMO';
-      statusBar('👁 Vista demo — datos simulados', true);
+      document.getElementById('lastUpdate').textContent = 'Demo mode';
+      statusBar('👁 Demo — simulated data', true);
     } else {
       document.getElementById('demoBanner').style.display = 'none';
       const now = new Date();
       document.getElementById('lastUpdate').textContent =
-        now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-      statusBar('✅ Datos reales actualizados', true);
+        'Updated ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+      statusBar(manual ? '✅ Refreshed!' : '✅ Data updated', true);
     }
 
-    renderCurrent();
-    renderWeek();
-    renderReadings();
+    renderCurrent(); renderWeek(); renderReadings(); renderChart();
 
   } catch(e) {
     allFeeds = generateDemo();
     document.getElementById('demoBanner').style.display = 'block';
-    renderCurrent(); renderWeek(); renderReadings();
-    statusBar('📡 Sin conexión — modo demo', false);
+    renderCurrent(); renderWeek(); renderReadings(); renderChart();
+    statusBar('No connection — demo mode', false);
   }
 }
+
+function manualRefresh() { fetchData(true); }
 
 fetchData();
 setInterval(fetchData, 300000);
